@@ -38,7 +38,7 @@ dev = [
 ]
 
 [project.scripts]
-dlt-commit = "duggerlink.cli:commit_main"
+dlt-commit = "duggerlink.cli.commit:main"
 dlt-status = "duggerlink.cli.commit:status"
 
 [project.urls]

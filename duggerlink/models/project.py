@@ -39,7 +39,7 @@ class DuggerProject(BaseModel):
     )
     
     model_config = ConfigDict(
-        extra="forbid",  # Prevent additional fields
+        extra="allow",  # Allow additional fields for backward compatibility (ADR-003)
     )
     
     @field_validator("path")
