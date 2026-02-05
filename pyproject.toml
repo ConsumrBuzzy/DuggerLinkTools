@@ -25,6 +25,7 @@ classifiers = [
 dependencies = [
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
+    "typer>=0.9.0",
 ]
 
 [project.optional-dependencies]
@@ -35,6 +36,10 @@ dev = [
     "mypy>=1.0.0",
     "pre-commit>=3.0.0",
 ]
+
+[project.scripts]
+dlt-commit = "duggerlink.cli:commit_main"
+dlt-status = "duggerlink.cli.commit:status"
 
 [project.urls]
 Homepage = "https://github.com/dugger/DuggerLinkTools"
