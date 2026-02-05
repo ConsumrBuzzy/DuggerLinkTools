@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class DuggerProject(BaseModel):
@@ -32,10 +32,14 @@ class DuggerProject(BaseModel):
         description="Additional project metadata"
     )
     
+    model_config = ConfigDict(
+        extra="forbid",  # Prevent additional fields
+    )
+    
     @field_validator("path")
     @classmethod
     def validate_path(cls, value: Path) -> Path:
-        """Ensure path is absolute and exists."""
+        """Ensure path is absolute."""
         if not value.is_absolute():
             raise ValueError("Project path must be absolute")
         return value.resolve()
@@ -84,10 +88,3 @@ class DuggerProject(BaseModel):
             "is_healthy": self.is_healthy(),
             "capability_count": len(self.capabilities),
         }
-    
-    class Config:
-        """Pydantic configuration."""
-        json_encoders = {
-            Path: lambda v: str(v),
-        }
-        extra = "forbid"  # Prevent additional fields
