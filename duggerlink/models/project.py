@@ -7,6 +7,8 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from .git import GitState
+
 
 class DuggerProject(BaseModel):
     """Pydantic model representing a project in the Dugger ecosystem.
@@ -30,6 +32,10 @@ class DuggerProject(BaseModel):
     metadata: dict[str, Any] = Field(
         default_factory=dict,
         description="Additional project metadata"
+    )
+    git: GitState | None = Field(
+        default=None,
+        description="Git repository state information"
     )
     
     model_config = ConfigDict(
@@ -80,7 +86,7 @@ class DuggerProject(BaseModel):
     
     def get_status_summary(self) -> dict[str, Any]:
         """Get a summary of project status."""
-        return {
+        summary = {
             "name": self.name,
             "path": str(self.path),
             "capabilities": self.capabilities,
@@ -88,3 +94,9 @@ class DuggerProject(BaseModel):
             "is_healthy": self.is_healthy(),
             "capability_count": len(self.capabilities),
         }
+        
+        # Add Git status if available
+        if self.git:
+            summary["git"] = self.git.get_status_summary()
+        
+        return summary
