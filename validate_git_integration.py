@@ -98,7 +98,12 @@ def main() -> None:
     
     print(f"First call (cache miss): {first_call_time:.4f}s")
     print(f"Second call (cache hit): {second_call_time:.4f}s")
-    print(f"Speed improvement: {first_call_time / second_call_time:.1f}x")
+    
+    if second_call_time > 0:
+        print(f"Speed improvement: {first_call_time / second_call_time:.1f}x")
+    else:
+        print("Speed improvement: Too fast to measure (both calls < 1ms)")
+    
     print(f"Results consistent: {branch1 == branch2}")
     
     # Test cache management
